@@ -25,7 +25,7 @@ def register_user(request):
         message = {"message":"User already exists"}
         return JsonResponse(message)
 
-    query = f"INSERT INTO user_user (id,first_name, last_name, username, password, email) VALUES (1,'{first_name}', '{last_name}', '{username}', '{password_hash}', '{email}')"
+    query = f"INSERT INTO user_user (first_name, last_name, username, password, email) VALUES ('{first_name}', '{last_name}', '{username}', '{password_hash}', '{email}')"
     cursor.execute(query)
 
     return JsonResponse({"message":"Successfully registered"})

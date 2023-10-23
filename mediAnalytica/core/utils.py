@@ -1,4 +1,14 @@
+from django.db import connection 
 
+cursor = connection.cursor()
+
+def checkUser(username):
+    query = f"SELECT * FROM user_user WHERE username = '{username}' "
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    if(len(rows)>0):
+        return True
+    return False
 
 def serialize_data(data):
     dict = {}
@@ -15,3 +25,4 @@ def serialize_data(data):
         dict["location"] = row[8]
         lst.append(dict)
     return lst
+
