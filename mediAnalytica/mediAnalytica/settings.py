@@ -57,7 +57,12 @@ ROOT_URLCONF = 'mediAnalytica.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'user/templates',
+            BASE_DIR / 'doctor/templates',
+            BASE_DIR / 'core/templates',
+
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

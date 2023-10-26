@@ -10,7 +10,11 @@ SECRET_KEY = settings.SECRET_KEY
 
 cursor = connection.cursor()
 
+
+
 def register_user(request):
+    if (request.method == "GET"):
+        return render(request, "user_register.html")
     request_body = request.body.decode('utf-8')
     userdata = json.loads(request_body)
     first_name = userdata['first_name']
@@ -31,6 +35,8 @@ def register_user(request):
     return JsonResponse({"message":"Successfully registered"})
 
 def login_user(request):
+    if (request.method == "GET"):
+        return render(request, "user_login.html")
     credentials = json.loads(request.body.decode('utf-8'))
     username = credentials['username']
     password = credentials['password']
