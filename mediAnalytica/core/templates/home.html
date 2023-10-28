@@ -2,7 +2,7 @@
 
 <head>
 
-    <title>User Login Page</title>
+    <title>Home Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../static/user_login.css">
@@ -15,7 +15,8 @@
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="collapse navbar-collapse d-flex flex-row" id="navbarNav">
+            <div>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Home</a>
@@ -28,35 +29,35 @@
                 </li>
             </ul>
         </div>
-    </nav>
-    <div class="wrapper">
-        <div class="container">
-            <h2>Login</h2>
-            <form action="/user/login" method="post">
-                <input type="text" placeholder="Username" name="username" required>
-                <input type="password" placeholder= "Password" name="password" required>
-                <input type="submit" value="Login">
-            </form>
-            <div class="signup-container">
-                <h6>Don't have an account? </h6>
-                <h6 class="signup-link" onclick="redirectToRegister()">Sign Up</h6>
-            </div>
-            
+        <div class="ms-auto {{login_btn_visibility}}" >
+            <ul class="navbar-nav ml-auto px-5">
+                <li class="nav-item ms-auto">
+                    <a class="nav-link" href="/user/login">{{ login_btn_1 }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link ms-auto" href="/doctor/login">{{ login_btn_2 }}</a>
+                </li>
+            </ul>
         </div>
-    </div>
+        <div class="ms-auto {{logout_btn_visibility}}" >
+            <ul class="navbar-nav ml-auto px-5">
+                <li class="nav-item ms-auto">
+                    <form action="/user/logout" method="post" id="logoutForm">
+                        <button class="nav-link">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </nav>
 
-
-    
-    <script>
-        if("{{alert}}")
-        {
-            alert("{{alert}}")
-        }
-        // Function to redirect to the register page
-        function redirectToRegister() {
-            window.location.href = "register";
-        }
-    </script>
 </body>
 
+<script>
+var cookieArr = document.cookie.split("; ")
+var typeCookie = cookieArr.at(-1)
+var type = typeCookie.slice(5,typeCookie.length)
+var logoutForm = document.getElementById("logoutForm")
+logoutForm.action = "/"+type+"/logout"
+</script>
 </html>

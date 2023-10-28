@@ -53,6 +53,10 @@
         </div>
     </div>
     <script>
+        if("{{alert}}")
+        {
+            alert("{{alert}}")
+        }
         function toggleExtraFields() {
             var extraFields = document.querySelector(".extra-fields");
             var isDoctorCheckbox = document.getElementById("isDoctor");

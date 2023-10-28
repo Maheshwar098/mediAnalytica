@@ -6,6 +6,17 @@ from .utils import *
 
 cursor = connection.cursor()
 
+def show_homepage(request):
+    context = {}
+    context["login_btn_1"] = "user login"
+    context["login_btn_2"] = "doctor login"
+    context['logout_btn_visibility'] = 'd-none'
+    token = request.COOKIES.get('token')
+    if(token):
+        context['login_btn_visibility'] = 'd-none'
+        context['logout_btn_visibility'] = None
+    return render(request, "home.html", context)
+
 def get_doctors(request):
     token = request.COOKIES.get('token')
     if (not token):
@@ -14,7 +25,7 @@ def get_doctors(request):
     cursor.execute(query)
     doctors = cursor.fetchall()
     data = serialize_data(doctors)
-    return JsonResponse({"message":data})
+    return render(request, "doctor_card.html")
 
 def get_doctor(request,id):
     token = request.COOKIES.get('token')
