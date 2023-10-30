@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 import json
 from django.db import connection
@@ -11,12 +11,18 @@ SECRET_KEY = settings.SECRET_KEY
 cursor = connection.cursor()
 
 def register_doctor(request):
-    request_body = request.body.decode('utf-8')     
-    doctor_data = json.loads(request_body)
+    if (request.method == "GET"):
+        return render(request,"doctor_register.html") 
+    queryDict = request.POST
+    doctor_data = {}
+    for key in (queryDict.keys()):
+        doctor_data[key] = queryDict[key]
+
     doctor_data['password'] = generate_SHA256_hash(doctor_data['password'])
-    # cursor.execute("DELETE FROM doctor_doctor")
     if(check_doctor(doctor_data['username'])):
-        return JsonResponse({"message" : "Doctor already exists"})
+        context = {}
+        context["alert"] = "Doctor already exists"
+        return render(request, "doctor_register.html", context)
     
     query = "INSERT INTO doctor_doctor "
     fields = ""
@@ -30,22 +36,28 @@ def register_doctor(request):
     field_values = "(" + field_values[:-1] + ")"
     query = query + field_values 
     cursor.execute(query)
-    return JsonResponse({"message":"Doctor registered successfully"})
+    return redirect("/doctor/login")
 
 def login_doctor(request):
-    request_body = request.body.decode('utf-8')
-    credentials = json.loads(request_body)
+    if(request.method == "GET"):
+        return render(request, "doctor_login.html")
+    
+    body = request.POST
+    credentials = {}
+    for key in (body.keys()):
+        credentials[key] = body[key]
     username = credentials['username']
     password = credentials['password']
     if(not authenticate_doctor(username, password)):
-        return JsonResponse({"message":"Invalid credentials"})
+        context={}
+        context["alert"] = "Invalid Credentials"
+        return render(request, "doctor_login.html", context)
     payload = {"username":username}
     token = encode(payload, SECRET_KEY)
-    response = HttpResponse()
-    response['Content-Type'] = 'application/json'
-    response.set_cookie("token", token, httponly=True, secure=True)
-    response_data = json.dumps({"message":"Logged in successfully"})
-    response.content = response_data.encode()
+    response = redirect("/")
+    response.set_cookie("token",token)
+    type = "doctor"
+    response.set_cookie("type",type)
     return response
 
 def update_doctor_profile(request):
@@ -70,9 +82,10 @@ def logout_doctor(request):
     if(not token):
         JsonResponse({"message":"Doctor not logged in "})
     
-    response = HttpResponse()
+    response = redirect("/")
     # Set a new cookie with the `expires=0` option.
     response.set_cookie('token', 'expired', expires=0)
+    response.set_cookie('type', 'expired', expires=0)
 
 
     # Set the `Content-Type` header of the response to `application/json`.

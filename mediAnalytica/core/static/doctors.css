@@ -24,6 +24,32 @@ body {
     border-radius: 5px;
 }
 
+.search-input {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    width: 500px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 25px; 
+    font-size: 16px;
+    outline: none;
+}
+
+.search-button {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 50px; 
+    padding: 10px 12px;
+    cursor: pointer;
+}
+
+#search-icon {
+    font-size: 20px;
+}
+
 .doctor-info {
     flex: 1;
     margin: 0 20px;
@@ -47,4 +73,3 @@ body {
     border-radius: 5px;
     cursor: pointer;
 }
-
