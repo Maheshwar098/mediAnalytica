@@ -90,8 +90,11 @@ def get_sepcialist_from_symptoms(request):
     if s5 in symptom_dict:
         x[0][symptom_dict[s5]] = 1
     model_path = "core/dbms_rf_1.pkl"
-    # with open(model_path, 'rb') as file :
-    #     model = pickle.load(file)
+    with open(model_path, 'rb') as file :
+        model = pickle.load(file)
+
+    prediction = model.predict(x)
+
     diseases = [
     "Fungal infection",
     "Hepatitis C",
@@ -135,10 +138,12 @@ def get_sepcialist_from_symptoms(request):
     "Typhoid",
     "Impetigo"
 ]
-    disease_len = len(diseases)
-    context = {"alert" : f"diagnosis : {diseases[int(np.random.uniform(0,4))]}"}
-    context["alert"]=diseases[int(np.random.uniform(0, disease_len))]
     
+    # disease_len = len(diseases)
+    # context = {"alert" : f"diagnosis : {diseases[int(np.random.uniform(0,4))]}"}
+    # context["alert"]=diseases[int(np.random.uniform(0, disease_len))]
+    print(prediction)
+    context = {"alert" : f"diagnosis : {prediction[0]}"}
 
     return render(request, "user_diagnosis.html", context)
     
