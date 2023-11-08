@@ -63,7 +63,7 @@ class Effect{
         this.width = this.canvas.width;
         this.height = this.canvas.height;
         this.particles = [];
-        this.numberOfParticles = 100;
+        this.numberOfParticles = 200;
         this.gradient = context.createLinearGradient(0, 0, this.width, this.height);
         this.gradient.addColorStop(0, 'yellow');
         this.gradient.addColorStop(0.5, 'magenta');
@@ -160,3 +160,14 @@ animate()
 function distance(x1, y1, x2, y2){
     return Math.hypot(x1-x2, y1-y2);
 }
+
+window.addEventListener("scroll", function() {
+    const box = document.querySelector(".homepage");
+    const scrollPosition = window.scrollY;
+  
+    // Calculate the background color based on the scroll position
+    const backgroundColor = `rgba(0, 0, 0, ${Math.min(0.1 + scrollPosition / 1000, 1)})`;
+  
+    // Apply the new background color
+    box.style.backgroundColor = backgroundColor;
+  });
