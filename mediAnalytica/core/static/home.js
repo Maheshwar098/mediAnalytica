@@ -163,11 +163,13 @@ function distance(x1, y1, x2, y2){
 
 window.addEventListener("scroll", function() {
     const box = document.querySelector(".homepage");
+    const texts = document.querySelectorAll(".scroll-text");
     const scrollPosition = window.scrollY;
-  
-    // Calculate the background color based on the scroll position
     const backgroundColor = `rgba(0, 0, 0, ${Math.min(0.1 + scrollPosition / 1000, 1)})`;
-  
-    // Apply the new background color
+    const textColor = `hsl(24, 100%, ${Math.min(100, scrollPosition / 5)}%)`;
     box.style.backgroundColor = backgroundColor;
+    texts.forEach((text)=>{
+        text.style.color = textColor;
+    })
+    console.log(textColor)
   });
