@@ -21,3 +21,22 @@ body {
     color: rgb(237, 215, 135)
     ;
 }
+.flex-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.flex-row{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.flex-para{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5vw;
+    color: hsl(24, 100%, 100%);
+}
