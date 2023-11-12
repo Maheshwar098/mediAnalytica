@@ -18,8 +18,9 @@ body {
     padding: 3vh 3vw;
     background-color: rgb(0, 0, 0, 0.4);
     border-radius: 10px;
-    color: rgb(237, 215, 135)
-    ;
+    color: rgb(237, 215, 135);
+    position: relative;
+    bottom: 0;
 }
 .flex-box{
     display: flex;
