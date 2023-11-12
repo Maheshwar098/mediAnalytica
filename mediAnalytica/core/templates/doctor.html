@@ -1,12 +1,9 @@
 {% extends 'base.html' %} 
-{% load static %} 
-
-{% block title %}
-{{doctor.first_name}} {{doctor.last_name}}
-{% endblock title %}  
+{% load static %}
+{% block title %}{{doctor.first_name}} {{doctor.last_name}}{% endblock title %}  
 
 {% block stylesheet %}
-<link rel="stylesheet" type="text/css" href="../static/doctor.css">
+<link rel="stylesheet" type="text/css" href="../static/css/doctor.css">
 {% endblock stylesheet %}
 
 {% block body %}
