@@ -28,10 +28,9 @@
         </form>
     </div>
 </div>
-
-<script>
-    if("{{alert}}"){
-        alert("{{alert}}")
-    }
-</script>
 {% endblock body %} 
+
+{% block script %}
+if("{{alert}}"){
+    alert("{{alert}}")
+}{% endblock script %}

@@ -1,6 +1,5 @@
 {% extends 'base.html' %} 
 {% load static %} 
-
 {% block title %}Login Doctor{% endblock title %}  
 
 {% block stylesheet %}
@@ -22,13 +21,17 @@
         </div>
     </div>
 </div>
-<script>
-    if("{{alert}}"){
-        alert("{{alert}}")
-    }
-    // Function to redirect to the register page
-    function redirectToRegister() {
-        window.location.href = "register";
-    }
-</script>
+
 {% endblock body %} 
+
+{% block script %}
+<script>
+if("{{alert}}"){
+    alert("{{alert}}")
+}
+// Function to redirect to the register page
+function redirectToRegister() {
+    window.location.href = "register";
+}
+</script>
+{% endblock script %}
