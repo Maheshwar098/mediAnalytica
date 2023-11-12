@@ -143,8 +143,9 @@ def get_sepcialist_from_symptoms(request):
     # context = {"alert" : f"diagnosis : {diseases[int(np.random.uniform(0,4))]}"}
     # context["alert"]=diseases[int(np.random.uniform(0, disease_len))]
     print(prediction)
-    context = {"alert" : f"diagnosis : {prediction[0]}"}
+    # context = {"alert" : f"diagnosis : {prediction[0]}"}
+    context = {"result" : prediction[0]}
 
-    return render(request, "user_diagnosis.html", context)
+    return render(request, "result.html", context)
     
 

@@ -1,68 +1,16 @@
-<!DOCTYPE html>
+{% extends 'base.html' %} 
+{% load static %} 
+{% block title %}Website{% endblock title %}  
 
-<head>
+{% block stylesheet %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.7/lottie.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../static/css/home.css">
+{% endblock stylesheet %}
 
-    <title>Home Page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="../static/home.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.7/lottie.min.js"></script>
-
-</head>
-<body style="background-color: #e1e1e1;">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-padding">
-        <a class="navbar-brand mx-5" href="/">MediAnalytica</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse d-flex flex-row" id="navbarNav">
-            <div>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" onclick="handle_view_doctor()">View Doctors</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/get-specialist-from-symptom">Dignose</a>
-                </li>
-            </ul>
-        </div>
-        <div class="ms-auto {{login_btn_visibility}}" >
-            <ul class="navbar-nav ml-auto px-5">
-                <li class="nav-item ms-auto">
-                    <a class="nav-link" href="/user/login">{{ login_btn_1 }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link ms-auto" href="/doctor/login">{{ login_btn_2 }}</a>
-                </li>
-            </ul>
-        </div>
-        <div class="ms-auto {{logout_btn_visibility}}" >
-            <ul class="navbar-nav ml-auto px-5">
-                <li class="nav-item ms-auto">
-                    <form action="/user/logout" method="post" id="logoutForm">
-                        <button class="nav-link">Logout</button>
-                    </form>
-                </li>
-            </ul>
-        </div>
-        </div>
-    </nav>
-
-    <div id="canvas-container" style="position: fixed; z-index: -1;">
-        <canvas id="canvas1"></canvas>
-    </div>
-<!-- <div class="homepage" style="margin-top: 100px; ">
-    <div class="row justify-content-center align-items-center">
-        <div id="lottie-container" class="col-md-5 text-center text-md-start order-2 order-md-1 text-light"></div>
-        <h2 class="col-md-5 text-center order-1 order-md-2 ms-md-5 mb-5 illustration">Welcome to MediAnalytica</h2>
-        <p class="col-md-5 text-center order-1 order-md-3 ms-md-5 mb-5 illustration">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit dicta expedita ex, possimus quibusdam explicabo, non unde adipisci asperiores animi ipsam sint veniam voluptates dignissimos debitis et repellendus voluptate enim iure dolores!</p>
-    </div>
-</div> -->
-
+{% block body %}
+<div id="canvas-container" style="position: fixed; z-index: -1;">
+    <canvas id="canvas1"></canvas>
+</div>
 <div class="homepage" style="margin-top: 100px; ">
     <div class="flex-box">
         <div class="flex-row">
@@ -71,58 +19,10 @@
         </div>
     <p class="flex-para scroll-text">Medianalytica is an innovative website at the forefront of healthcare technology, harnessing the power of data science and machine learning to revolutionize patient care. Our platform leverages cutting-edge algorithms to predict diseases based on symptoms, seamlessly connecting patients with specialists who can provide the most effective care. With extensive databases of doctors and hospitals</p>
     </div>
-        <!-- <h3 class="col-md-5 text-center order-1 order-md-3 ms-md-5 mb-5 illustration">Where health meets data, Empowering Your Health Journey</h3> -->
 </div>
+{% endblock body %} 
 
-<div class="flex-box footer scroll-text">© MediAnalytica</div>
-
-</body>
-<script src="../static/home.js"></script>
-<script>
-
-
-var cookieArr = document.cookie.split("; ")
-var typeCookie = cookieArr.at(-1)
-var type = typeCookie.slice(5,typeCookie.length)
-var logoutForm = document.getElementById("logoutForm")
-logoutForm.action = "/"+type+"/logout"
-function handle_view_doctor()
-{
-    var cookieArr = document.cookie.split("; ")
-    is_logged_in = false
-    for(var i = 0 ; i < cookieArr.length ; i++)
-    {
-        key = cookieArr[i].slice(0,4)
-        if(key === "type")
-        {
-            is_logged_in = true;
-            break
-        }
-    }
-
-    if(!is_logged_in)
-    {
-        alert("Please login to continue")
-    }
-    else
-    {
-        window.location.href = "get-doctor";
-    }
-}
-
-const container = document.getElementById("lottie-container");
-
-  // Configuration options for the Lottie animation
-  const animationConfig = {
-    container: container, // The container element
-    renderer: "svg", // Choose the rendering mode (svg, canvas, html)
-    loop: true, // Set to true for a looping animation
-    autoplay: true, // Set to true to start the animation automatically
-    path: "../static/animation_lobf8rfw.json", // Path to your JSON animation file
-  };
-
-  // Create a Lottie animation by passing the configuration
-  const anim = lottie.loadAnimation(animationConfig);
-
-</script>
-</html>
+{% block script %}
+<script src="../static/js/animation.js"></script>
+<script src="../static/js/home.js"></script>
+{% endblock script %} 

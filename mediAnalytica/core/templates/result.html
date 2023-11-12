@@ -1,0 +1,17 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block title %}Diagnosis Result{% endblock title %}  
+
+{% block stylesheet %}
+<link rel="stylesheet" type="text/css" href="../static/css/result.css">
+{% endblock stylesheet %}
+
+{% block body %}
+<div>
+    <div class="result">
+        <h1>Diagnosis : {{result}}</h1>
+        <p>These results may not be accurate and immediate medical attention is advised. To see a list of doctors who specialise in this, click on view doctors</p>
+        <a href="/get-doctor">Specialists for {{result}}</a>
+    </div>
+</div>
+{% endblock body %} 

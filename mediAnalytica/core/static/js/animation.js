@@ -15,8 +15,12 @@ class Particle{
         this.radius = 2 + 5*Math.random();
         this.x = this.radius+Math.random()*(this.effect.width-this.radius);
         this.y = this.radius+Math.random()*(this.effect.height-this.radius);
-        this.vx = 0.1+Math.random();
-        this.vy = 0.1+Math.random();
+        this.vx = Math.random()-0.5;
+        this.vy = Math.random()-0.5;
+        if(this.vx > 0)this.vx+=0.1;
+        else this.vx-=0.1;
+        if(this.vy > 0)this.vy+=0.1;
+        else this.vy-=0.1;
     }
     draw(context){
         // context.fillStyle = `hsl(${this.x*0.25}, 100%, 50%)`
