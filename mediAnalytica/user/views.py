@@ -11,8 +11,16 @@ SECRET_KEY = settings.SECRET_KEY
 cursor = connection.cursor()
 
 def register_user(request):
+    context = {}
     if (request.method == "GET"):
-        return render(request, "user_register.html")
+        context["login_btn_1"] = "User Login"
+        context["login_btn_2"] = "Doctor Login"
+        context['logout_btn_visibility'] = 'd-none'
+        token = request.COOKIES.get('token')
+        if(token):
+            context['login_btn_visibility'] = 'd-none'
+            context['logout_btn_visibility'] = None
+        return render(request, "user_register.html", context = context)
     request_body = request.body.decode('utf-8')
     first_name = request.POST.get('first_name')
     last_name = request.POST.get('last_name')
@@ -32,8 +40,16 @@ def register_user(request):
     return redirect("/user/login")
 
 def login_user(request):
+    context = {}
     if (request.method == "GET"):
-        return render(request, "user_login.html")
+        context["login_btn_1"] = "User Login"
+        context["login_btn_2"] = "Doctor Login"
+        context['logout_btn_visibility'] = 'd-none'
+        token = request.COOKIES.get('token')
+        if(token):
+            context['login_btn_visibility'] = 'd-none'
+            context['logout_btn_visibility'] = None
+        return render(request, "user_login.html", context = context)
     
     username = request.POST.get('username')
     password = request.POST.get('password')

@@ -11,8 +11,16 @@ SECRET_KEY = settings.SECRET_KEY
 cursor = connection.cursor()
 
 def register_doctor(request):
+    context = {}
     if (request.method == "GET"):
-        return render(request,"doctor_register.html") 
+        context["login_btn_1"] = "User Login"
+        context["login_btn_2"] = "Doctor Login"
+        context['logout_btn_visibility'] = 'd-none'
+        token = request.COOKIES.get('token')
+        if(token):
+            context['login_btn_visibility'] = 'd-none'
+            context['logout_btn_visibility'] = None
+        return render(request,"doctor_register.html", context = context) 
     queryDict = request.POST
     doctor_data = {}
     for key in (queryDict.keys()):
@@ -39,8 +47,16 @@ def register_doctor(request):
     return redirect("/doctor/login")
 
 def login_doctor(request):
+    context = {}
     if(request.method == "GET"):
-        return render(request, "doctor_login.html")
+        context["login_btn_1"] = "User Login"
+        context["login_btn_2"] = "Doctor Login"
+        context['logout_btn_visibility'] = 'd-none'
+        token = request.COOKIES.get('token')
+        if(token):
+            context['login_btn_visibility'] = 'd-none'
+            context['logout_btn_visibility'] = None
+        return render(request, "doctor_login.html", context = context)
     
     body = request.POST
     credentials = {}

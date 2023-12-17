@@ -7,10 +7,12 @@
 {% endblock stylesheet %}
 
 {% block body %}
-<div class="diagnosis-text-box">
+
+<div class="diagnosis-text-box text-center">
     <h1>Disease Prediction </h1>
     <h3>Choose your symptoms</h3>
   </div>
+  <div class="container w-50">
   <form method="post" id="diagnosis-form" action="/get-specialist-from-symptom">
     {% csrf_token %}
     <input type="text" id="cityInput1" list="cities" name = "s1" placeholder="Enter Symptom 1">
@@ -152,8 +154,9 @@
       <option value="red_sore_around_nose">
       <option value="yellow_crust_ooze">
     </datalist>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary mt-3">Check</button>
 </form>
+</div>
 {% endblock body %} 
 
 {% block script %}
