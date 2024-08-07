@@ -7,6 +7,9 @@ from django.core.handlers.wsgi import WSGIRequest
 import numpy as np
 import pickle
 cursor = connection.cursor()
+model_path = "core/static/rf_disease.sav"
+with open(model_path, 'rb') as file :
+    model = pickle.load(file)
 
 def show_homepage(request):
     context = {}
@@ -81,15 +84,17 @@ def get_sepcialist_from_symptoms(request):
 
     x = np.zeros((1,132))
 
-    x[0][symptom_dict[s1]] = 1
-    x[0][symptom_dict[s2]] = 1
-    x[0][symptom_dict[s3]] = 1
-    x[0][symptom_dict[s4]] = 1
-    x[0][symptom_dict[s5]] = 1
-
-    model_path = "core/static/random_forest.pkl"
-    with open(model_path, 'rb') as file :
-        model = pickle.load(file)
+    if s1 in symptom_dict:
+        x[0][symptom_dict[s1]] = 1
+    if s2 in symptom_dict:
+        x[0][symptom_dict[s2]] = 1
+    if s3 in symptom_dict:
+        x[0][symptom_dict[s3]] = 1
+    if s4 in symptom_dict:
+        x[0][symptom_dict[s4]] = 1
+    if s5 in symptom_dict:
+        x[0][symptom_dict[s5]] = 1
+    # model_path = "core/dbms_rf_1.pkl"
 
     prediction = model.predict(x)
 
