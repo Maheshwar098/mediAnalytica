@@ -69,6 +69,9 @@ def get_specialist(request):
     return render(request, "doctors.html",context)
 
 def get_sepcialist_from_symptoms(request):
+    token = request.COOKIES.get('token')
+    if (not token):
+        return JsonResponse({"message":"Please login to continue"})
     if(request.method == "GET"):
         return render(request, "user_diagnosis.html")
     s1 = request.POST.get('s1')
