@@ -3,7 +3,10 @@ var typeCookie = cookieArr.at(-1)
 var type = typeCookie.slice(5,typeCookie.length)
 var logoutForm = document.getElementById("logoutForm")
 logoutForm.action = "/"+type+"/logout"
-function handle_view_doctor(){
+function checkAuthentication(targetUrl, event){
+    console.log("ahh shit", event)
+    event.preventDefault()
+    
     var cookieArr = document.cookie.split("; ")
     is_logged_in = false
     for(var i = 0 ; i < cookieArr.length ; i++){
@@ -17,6 +20,6 @@ function handle_view_doctor(){
         alert("Please login to continue")
     }
     else{
-        window.location.href = "get-doctor";
+        window.location.href = targetUrl;
     }
 }

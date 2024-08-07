@@ -7,8 +7,6 @@ import pickle
 from typing import List, Tuple
 import os
 
-import sklearn.ensemble
-
 def load_dataset(data_path: str)->Tuple[np.ndarray, np.ndarray]:
     """
     Load data from train.csv from data path and return X_train and Y_train

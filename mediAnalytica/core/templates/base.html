@@ -23,10 +23,10 @@
                 </li>
                 <li class="nav-item active">
                     {% comment %} <a class="nav-link" href="/get-doctor">View Doctors</a> {% endcomment %}
-                    <a class="nav-link" onclick="handle_view_doctor()">View Doctors</a>
+                    <a class="nav-link" onclick="checkAuthentication('get-doctor', event)">View Doctors</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/get-specialist-from-symptom">Dignose</a>
+                    <a class="nav-link" onclick="checkAuthentication('get-specialist-from-symptom', event)">Dignose</a>
                 </li>
             </ul>
         </div>
