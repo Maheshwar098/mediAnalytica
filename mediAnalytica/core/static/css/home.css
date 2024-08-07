@@ -22,9 +22,20 @@ body {
     z-index: -1; /* Place it behind other elements */
 }
 .homepage{
-    background-color: rgb(200, 200, 200, 0.3);
+    /* background-color: rgb(200, 200, 200, 0.3); */
     margin: 10vw;
     border-radius: 5%;
+    background: rgba(246, 235, 246, 0.1); 
+    border-radius: 15px; 
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    padding: 20px; 
+    color: #000000; 
+    margin-bottom: 50px;
+    font-size: large;
+    /* max-width: 400px; 
+    margin: auto;  */
 }
 .flex-box{
     display: flex;
@@ -43,7 +54,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: 5vw;
-    color: hsl(24, 100%, 100%);
+    color: hsl(0, 0%, 0%);
 }
 /* .footer{
     padding: 3vh 3vw;

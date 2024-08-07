@@ -16,10 +16,10 @@ def register_doctor(request):
         context["login_btn_1"] = "User Login"
         context["login_btn_2"] = "Doctor Login"
         context['logout_btn_visibility'] = 'd-none'
-        token = request.COOKIES.get('token')
-        if(token):
-            context['login_btn_visibility'] = 'd-none'
-            context['logout_btn_visibility'] = None
+        # token = request.COOKIES.get('token')
+        # if(token):
+        #     context['login_btn_visibility'] = 'd-none'
+        #     context['logout_btn_visibility'] = None
         return render(request,"doctor_register.html", context = context) 
     queryDict = request.POST
     doctor_data = {}
