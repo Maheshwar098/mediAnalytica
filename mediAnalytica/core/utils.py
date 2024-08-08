@@ -26,6 +26,6 @@ def serialize_data(data):
         dict["speciality"] = row[7]
         dict["location"] = row[8]
         lst.append(dict)
-    print(lst)
+    # print(lst)
     return lst
 

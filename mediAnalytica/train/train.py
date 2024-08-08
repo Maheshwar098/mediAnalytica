@@ -30,8 +30,8 @@ def save_model(model, save_path):
     print(f"Model saved successfully to {save_path}")
 
 if __name__ == "__main__":
-    DATA_PATH = r"train\data\train.csv"
-    SAVE_PATH = r"core/static/rf_disease.sav"
+    DATA_PATH = r"data\train.csv"
+    SAVE_PATH = r"core/static/symptom_rf.sav"
 
     X, Y = load_dataset(DATA_PATH)
     model = train_model(X, Y)
