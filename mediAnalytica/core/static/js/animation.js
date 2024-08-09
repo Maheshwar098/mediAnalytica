@@ -166,14 +166,16 @@ function distance(x1, y1, x2, y2){
 }
 
 window.addEventListener("scroll", function() {
-    const box = document.querySelector(".homepage");
+    const boxes = document.querySelectorAll(".homepage");
     const texts = document.querySelectorAll(".scroll-text");
     const scrollPosition = window.scrollY;
-    const backgroundColor = `rgba(0, 0, 0, ${Math.min(0.1 + scrollPosition / 1000, 1)})`;
-    const textColor = `hsl(24, 100%, ${Math.min(100, scrollPosition / 5)}%)`;
-    box.style.backgroundColor = backgroundColor;
-    texts.forEach((text)=>{
-        text.style.color = textColor;
+    const backgroundColor = `rgba(0, 0, 0, ${Math.min(0.1 + scrollPosition / 1800, 0.7)})`;
+    const textColor = `hsl(24, 100%, ${Math.min(300, scrollPosition / 10)}%)`;
+    boxes.forEach((box)=>{
+        box.style.backgroundColor = backgroundColor;
+        texts.forEach((text)=>{
+            text.style.color = textColor;
+        })
+        console.log(textColor)
     })
-    console.log(textColor)
   });
