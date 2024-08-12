@@ -10,4 +10,6 @@ urlpatterns = [
     path("get-specialist-from-symptom", views.get_sepcialist_from_symptoms, name="get_doctors"),
     path("add-doctors", views.add_doctors, name = "add_doctors"),
     path("test-query", views.test_query, name = "test_query"),
+
+    path("get-lung-scan", views.get_lung_scan, name="lung-scan")
 ]

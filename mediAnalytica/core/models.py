@@ -4,3 +4,4 @@ from django.db import models
 class DiseaseSpeciality(models.Model):
     disease = models.CharField(max_length=50)
     speciality = models.CharField(max_length=50)
+

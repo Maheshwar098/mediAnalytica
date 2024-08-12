@@ -9,15 +9,16 @@ import pickle
 import os
 import json 
 from django.conf import settings
+from PIL import Image
+from io import BytesIO
+
+import torch
+from torchvision import transforms
+
+from .inference import InferenceService
 
 cursor = connection.cursor()
-rf_model_path = "core/static/symptom_rf.sav"
-with open(rf_model_path, 'rb') as file :
-    rf_model = pickle.load(file)
-
-json_file_path = os.path.join(settings.BASE_DIR, 'data', 'symptoms.json')
-with open(json_file_path, 'r') as file:
-    SYMPTOMS_DICT = json.load(file)
+inferServe = InferenceService()
 
 def show_homepage(request):
     context = {}
@@ -98,12 +99,7 @@ def get_sepcialist_from_symptoms(request):
         return render(request, "user_diagnosis.html")
     
     symptoms = [request.POST.get(f's{i}') for i in range(1, 6)]
-    x = np.zeros((1,132))
-    for symptom in symptoms:
-        if symptom in SYMPTOMS_DICT:
-            x[0][SYMPTOMS_DICT[symptom]] = 1
-
-    prediction = rf_model.predict(x)[0]
+    prediction = inferServe.predict_disease_from_symptom(symptoms)
     context = {"result" : prediction}
     return render(request, "result.html", context=context)
     
@@ -123,3 +119,18 @@ def test_query(request):
     query = "DELETE FROM user_user WHERE username = 'test_user_4'"
     # cursor.execute(query)
     return JsonResponse({"resposne" : "Request executed successfully"})
+
+def get_lung_scan(request):
+    if request.method == 'POST':
+        if 'image' not in request.FILES:
+            print("No image in request")
+            return JsonResponse({'error': 'No file part'}, status=400)
+        else:
+            image_file = request.FILES['image']
+            image = Image.open(BytesIO(image_file.read())).convert('RGB')
+            op_image = inferServe.segment_lungs(image)
+            op_image.save(r"core/static/output_lung_image.png")
+            context = {'scan': True,}
+    else:
+        context = {'scan': False,}
+    return render(request, "scan.html", context)
