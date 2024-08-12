@@ -1,0 +1,37 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block title %}Login Doctor{% endblock title %}  
+
+{% block stylesheet %}
+<link rel="stylesheet" type="text/css" href="../static/css/doctor_login.css">
+{% endblock stylesheet %}
+
+{% block body %}
+<div class="wrapper">
+    <div class="container">
+        <h2>Doctor Login</h2>
+        <form action="/doctor/login" method="post">
+            <input type="text" placeholder="Username" name="username" required>
+            <input type="password" placeholder= "Password" name="password" required>
+            <input type="submit" value="Login">
+        </form>
+        <div class="signup-container">
+            <h6>Don't have an account? </h6>
+            <h6 class="signup-link" onclick="redirectToRegister()">Sign Up</h6>
+        </div>
+    </div>
+</div>
+
+{% endblock body %} 
+
+{% block script %}
+<script>
+if("{{alert}}"){
+    alert("{{alert}}")
+}
+// Function to redirect to the register page
+function redirectToRegister() {
+    window.location.href = "register";
+}
+</script>
+{% endblock script %}

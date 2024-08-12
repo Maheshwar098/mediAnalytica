@@ -1,0 +1,44 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block title %}Website{% endblock title %}  
+
+{% block stylesheet %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.7/lottie.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../static/css/home.css">
+{% endblock stylesheet %}
+
+{% block body %}
+<div id="canvas-container" style="position: fixed; z-index: -1;">
+    <canvas id="canvas1"></canvas>
+</div>
+<div class="homepage" style="margin-top: 100px; margin-bottom: 100px; ">
+    <div class="flex-box">
+        <div class="flex-row">
+            <div id="lottie-container" class="flex-lottie"></div>
+            <h2 class="flex-title scroll-text">Welcome to MediAnalytica</h2>
+        </div>
+    <p class="flex-para scroll-text">Medianalytica is an innovative website at the forefront of healthcare technology, harnessing the power of data science and machine learning to revolutionize patient care. Our platform leverages cutting-edge algorithms to predict diseases based on symptoms, seamlessly connecting patients with specialists who can provide the most effective care. With extensive databases of doctors and hospitals</p>
+    </div>
+</div>
+<div style="margin-top: 100px;">
+
+<div class="homepage" style="margin-top: 100px; margin-bottom: 100px; ">
+    <div class="flex-box">
+        <div class="flex-row">
+            <div class="flex-title scroll-text flex-box">
+                <h2>Diagnostics</h2>
+                <p class="flex-para scroll-text">Get AI powered diagnostics based on symptoms, reports and scan results within seconds</p>
+            </div>
+            <div id="lottie-container-2" class="flex-lottie" style="width: 30%"></div>
+        </div>
+    </div>
+</div>
+<div style="margin-top: 100px;">
+
+</div>
+{% endblock body %} 
+
+{% block script %}
+<script src="../static/js/animation.js"></script>
+<script src="../static/js/home.js"></script>
+{% endblock script %} 

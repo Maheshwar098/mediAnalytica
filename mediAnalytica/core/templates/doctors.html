@@ -1,0 +1,31 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block title %}Doctors Page{% endblock title %}  
+
+{% block stylesheet %}
+<link rel="stylesheet" type="text/css" href="../static/css/doctors.css">
+{% endblock stylesheet %}
+
+{% block body %}
+    <div class="doctor-body">
+    <div class="search-container">
+        <form action="/get-specialist" method="get">
+            <input type="text" name="speciality" placeholder="Search..." class="search-input">
+            <button type="submit" class="search-button">
+                <i class="fa-solid fa-magnifying-glass" id="search-icon">search</i>
+            </button>
+        </form>
+    </div>
+    {% for doctor in doctors %}
+        <form action="/get-doctor/{{doctor.id}}" method="get">
+            <div class="doctor-card">
+                <div class="doctor-name">{{ doctor.first_name }} {{ doctor.last_name }}</div>
+                <div class="doctor-info">
+                    <div class="specialty">{{ doctor.speciality }}</div>
+                </div>
+                <button class="view-button" >View details</button>
+            </div>
+        </form>
+    {% endfor %}
+    </div>
+{% endblock body %} 

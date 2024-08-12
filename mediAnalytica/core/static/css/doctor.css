@@ -1,0 +1,9 @@
+.doct-card{
+    width: 50vw !important;
+}
+
+.doct-detail{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

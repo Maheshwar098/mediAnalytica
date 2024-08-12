@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse,JsonResponse
 import json
 from django.db import connection
@@ -11,29 +11,48 @@ SECRET_KEY = settings.SECRET_KEY
 cursor = connection.cursor()
 
 def register_user(request):
+    context = {}
+    if (request.method == "GET"):
+        context["login_btn_1"] = "User Login"
+        context["login_btn_2"] = "Doctor Login"
+        context['logout_btn_visibility'] = 'd-none'
+        token = request.COOKIES.get('token')
+        if(token):
+            context['login_btn_visibility'] = 'd-none'
+            context['logout_btn_visibility'] = None
+        return render(request, "user_register.html", context = context)
     request_body = request.body.decode('utf-8')
-    userdata = json.loads(request_body)
-    first_name = userdata['first_name']
-    last_name = userdata['last_name']
-    username = userdata['username']
-    password = userdata['password']
-    email = userdata['email']
+    first_name = request.POST.get('first_name')
+    last_name = request.POST.get('last_name')
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    email = request.POST.get('email')
     password_hash = generateSHA256Hash(password)
     # cursor.execute("DELETE FROM user_user")
-
+    context = {}
     if(checkUser(username)):
-        message = {"message":"User already exists"}
-        return JsonResponse(message)
+        context["alert"] = "User already exists"
+        return render(request,"user_register.html", context)
 
-    query = f"INSERT INTO user_user (id,first_name, last_name, username, password, email) VALUES (1,'{first_name}', '{last_name}', '{username}', '{password_hash}', '{email}')"
+    query = f"INSERT INTO user_user (first_name, last_name, username, password, email) VALUES ('{first_name}', '{last_name}', '{username}', '{password_hash}', '{email}')"
     cursor.execute(query)
 
-    return JsonResponse({"message":"Successfully registered"})
+    return redirect("/user/login")
 
 def login_user(request):
-    credentials = json.loads(request.body.decode('utf-8'))
-    username = credentials['username']
-    password = credentials['password']
+    context = {}
+    if (request.method == "GET"):
+        context["login_btn_1"] = "User Login"
+        context["login_btn_2"] = "Doctor Login"
+        context['logout_btn_visibility'] = 'd-none'
+        token = request.COOKIES.get('token')
+        if(token):
+            context['login_btn_visibility'] = 'd-none'
+            context['logout_btn_visibility'] = None
+        return render(request, "user_login.html", context = context)
+    
+    username = request.POST.get('username')
+    password = request.POST.get('password')
     password_hash = generateSHA256Hash(password)
 
     query = f"SELECT * FROM user_user WHERE username='{username}' AND password = '{password_hash}'"
@@ -41,17 +60,19 @@ def login_user(request):
     cursor.execute(query)
 
     user = cursor.fetchall()
-
+    context = {}
     if(len(user)==0):
-        return JsonResponse({"message":"Invalid credentials"})
+        context["alert"] = "Invalid Credentials"
+        return render(request, "user_login.html",context)
     
     payload = {'username':str(user[0][3])}
     token = encode(payload, SECRET_KEY)
-    response = HttpResponse()
-    response['Content-Type']='application/json'
-    response.set_cookie("token",token,secure=True,httponly=True)
-    response_data = json.dumps({"message":"Logged in successfully"})
-    response.content = response_data.encode()
+
+    response = redirect("/")
+    print(response)
+    response.set_cookie('token',token)
+    type = 'user'
+    response.set_cookie('type', type)
     return response
 
 def update_user_profile(request):
@@ -84,29 +105,19 @@ def update_user_profile(request):
 
 def logout_user(request):
     token = request.COOKIES.get('token')
-
     if(not token):
         return JsonResponse({"message":"User not logged in"})
     
     token = request.COOKIES.get('token')
 
     # Delete the token from the cookies.
-    response = HttpResponse()
+    response = redirect('/')
 
     response.delete_cookie('token')
+    response.delete_cookie('type')
 
     # Set a new cookie with the `expires=0` option.
     response.set_cookie('token', 'expired', expires=0)
+    response.set_cookie('type', 'expired', expires=0)
 
-
-    # Set the `Content-Type` header of the response to `application/json`.
-    response['Content-Type'] = 'application/json'
-
-    # Serialize the response data to a string.
-    response_data = json.dumps({'message': 'Logged out successfully.'})
-
-    # Set the `Content` of the response to the serialized response data.
-    response.content = response_data.encode()
-
-    # Return the response object.
     return response

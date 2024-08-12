@@ -1,0 +1,24 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block title %}{{doctor.first_name}} {{doctor.last_name}}{% endblock title %}  
+
+{% block stylesheet %}
+<link rel="stylesheet" type="text/css" href="../static/css/doctor.css">
+{% endblock stylesheet %}
+
+{% block body %}
+<div class="doct-detail">
+    <div class="card m-5 doct-card">
+        <div class="card-body p-5">
+            <h5 class="card-title">Doctor Information</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Name</strong> {{doctor.first_name}} {{doctor.last_name}}</li>
+                <li class="list-group-item"><strong>Email:</strong> {{doctor.email}}</li>
+                <li class="list-group-item"><strong>Phone:</strong> {{doctor.phone}}</li>
+                <li class="list-group-item"><strong>Speciality:</strong> {{doctor.speciality}}</li>
+                <li class="list-group-item"><strong>Location:</strong>{{doctor.location}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock body %} 
