@@ -215,6 +215,16 @@ def train(
     return train_history, val_history
 
 if __name__ == "__main__":
+    if torch.cuda.is_available():
+        print("GPU is available. Proceeding with training.")
+        DEVICE = 'cuda'
+    else:
+        user_input = input("GPU is not available. Training will take significantly longer on CPU. Do you want to continue? (yes/no): ").strip().lower()
+        if user_input != 'yes':
+            print("Aborting training.")
+            exit()
+
+        DEVICE = 'cpu'
     # Define directories
     IMG_DIR = "/kaggle/input/chest-xray-masks-and-labels/Lung Segmentation/CXR_png/"
     MASK_DIR = "/kaggle/input/chest-xray-masks-and-labels/Lung Segmentation/masks"
