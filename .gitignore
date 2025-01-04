@@ -4,3 +4,5 @@ __pycache__/
 *.sav
 *.pth
 db.sqlite3
+*.venv
+*.h5
