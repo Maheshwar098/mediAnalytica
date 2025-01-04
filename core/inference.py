@@ -7,7 +7,7 @@ import os
 import json
 from django.conf import settings
 from typing import List
-import keras
+import tensorflow as tf
 
 
 
@@ -32,7 +32,7 @@ class InferenceService:
         self.lung_segmentation_model = torch.load(torch_lung_model_path, map_location=torch.device('cpu'))
         self.lung_segmentation_model.eval()
 
-        self.chest_xray_pneumonia_model=  keras.models.load_model(chest_xray_pneumonia_model_path)
+        self.chest_xray_pneumonia_model=  tf.keras.models.load_model(chest_xray_pneumonia_model_path)
 
     def predict_disease_from_symptom(self, symptoms: List)->str:
         x = np.zeros((1,132))
