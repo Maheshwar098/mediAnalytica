@@ -17,6 +17,7 @@ class InferenceService:
         json_file_path = os.path.join(settings.BASE_DIR, 'data', 'symptoms.json')
         torch_lung_model_path = r"core/static/lungmodel.pth"
         chest_xray_pneumonia_model_path = r"core/static/pneumonia_chest_xray_model.h5"
+        knee_xray_osteoporosis_model_path = r"core/static/osteoporosis_knee_xray_model.h5"
 
         with open(rf_model_path, 'rb') as file :
             self.rf_model = pickle.load(file)
@@ -33,6 +34,8 @@ class InferenceService:
         self.lung_segmentation_model.eval()
 
         self.chest_xray_pneumonia_model=  tf.keras.models.load_model(chest_xray_pneumonia_model_path)
+
+        self.knee_xray_osteoporosis_model = tf.keras.models.load_model(knee_xray_osteoporosis_model_path)
 
     def predict_disease_from_symptom(self, symptoms: List)->str:
         x = np.zeros((1,132))
@@ -60,5 +63,15 @@ class InferenceService:
         return image
 
     def analyse_chest_xray_for_pneumonia(self,image):
-        prediction = self.chest_xray_pneumonia_model.predict(image)
-        return prediction
+        prediction = self.chest_xray_pneumonia_model.predict(image)[0][0]
+        diagnosis = "No Pneumonia"
+        if(prediction ==1.0):
+            diagnosis = "Pneumonia"
+        return diagnosis
+    
+    def analyse_knee_xray_for_osteoporosis(self, image):
+        prediction = self.knee_xray_osteoporosis_model.predict(image)[0][0]
+        diagnosis = "No Osteoporosis"
+        if(prediction == 1.0 ):
+            diagnosis = "Osteoporosis"
+        return diagnosis

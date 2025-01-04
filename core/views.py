@@ -146,12 +146,24 @@ def get_chest_xray_pneumonia_diagnosis(request):
             image_file = request.FILES['image']
             image = np.array(Image.open(BytesIO(image_file.read())))
             image_reshaped = np.expand_dims(np.stack((reshape_image(image,img_height,img_width),) * 3, axis=-1), axis=0)
-            result = inferServe.analyse_chest_xray_for_pneumonia(image_reshaped)[0][0]
-            print(result)
-            diagnosis = "No Pneumonia"
-            if(result ==1):
-                diagnosis = "Pneumonia"
-            context = {'scan': True, "diagnosis":diagnosis}
+            result = inferServe.analyse_chest_xray_for_pneumonia(image_reshaped)
+            context = {'scan': True, "diagnosis":result}
     else:
         context = {'scan': False,}
     return render(request, "chest-xray-pneumonia.html", context)
+
+def get_knee_xray_osteoporosis(request):
+    img_height = 1024
+    img_width = 512
+    if(request.method == "POST"):
+        if "image" not in request.FILES : 
+            return JsonResponse({'error': 'No file part'}, status=400)
+        else:
+            image_file = request.FILES["image"]
+            image = np.array(Image.open(BytesIO(image_file.read())))
+            image_reshaped = np.expand_dims(reshape_image(image,img_height,img_width), axis=0)
+            result = inferServe.analyse_knee_xray_for_osteoporosis(image_reshaped)
+            context = {"scan" : True, "diagnosis":result}   
+    else:
+        context = {"scan" : False}
+    return render(request, "knee-xray-osteoporosis.html", context)
