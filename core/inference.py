@@ -18,6 +18,7 @@ class InferenceService:
         torch_lung_model_path = r"core/static/lungmodel.pth"
         chest_xray_pneumonia_model_path = r"core/static/pneumonia_chest_xray_model.h5"
         knee_xray_osteoporosis_model_path = r"core/static/osteoporosis_knee_xray_model.h5"
+        brain_ct_scan_tumor_model_path = r"core/static/brain_ctscan_model.h5"
 
         with open(rf_model_path, 'rb') as file :
             self.rf_model = pickle.load(file)
@@ -36,6 +37,8 @@ class InferenceService:
         self.chest_xray_pneumonia_model=  tf.keras.models.load_model(chest_xray_pneumonia_model_path)
 
         self.knee_xray_osteoporosis_model = tf.keras.models.load_model(knee_xray_osteoporosis_model_path)
+
+        self.brain_ct_scan_tumor_model= tf.keras.models.load_model(brain_ct_scan_tumor_model_path)
 
     def predict_disease_from_symptom(self, symptoms: List)->str:
         x = np.zeros((1,132))
@@ -74,4 +77,15 @@ class InferenceService:
         diagnosis = "No Osteoporosis"
         if(prediction == 1.0 ):
             diagnosis = "Osteoporosis"
+        return diagnosis
+    
+    def analyse_brain_ct_scan_for_tumor(self, image):
+        probabilities = self.brain_ct_scan_tumor_model.predict(image)[0]
+        print(probabilities)
+        prediction = np.argmax(probabilities)
+        diagnosis = "Aneurysm"
+        if(prediction == 1.0):
+            diagnosis = "Cancer"
+        elif (prediction == 2.0):
+            diagnosis = "Tumor"
         return diagnosis

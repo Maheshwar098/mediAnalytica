@@ -167,3 +167,19 @@ def get_knee_xray_osteoporosis(request):
     else:
         context = {"scan" : False}
     return render(request, "knee-xray-osteoporosis.html", context)
+
+def get_brain_ct_scan_tumor_detection(request):
+    img_height = 512
+    img_width = 512
+    if(request.method == "POST"):
+        if "image" not in request.FILES : 
+            return JsonResponse({'error': 'No file part'}, status=400)
+        else:
+            image_file = request.FILES["image"]
+            image = np.array(Image.open(BytesIO(image_file.read())))
+            image_reshaped = np.expand_dims(reshape_image(image,img_height,img_width), axis=0)
+            result = inferServe.analyse_brain_ct_scan_for_tumor(image_reshaped)
+            context = {"scan" : True, "diagnosis":result}
+    else:
+        context={"scan":False}
+    return render(request, "brain-ct-scan-tumor.html",context)

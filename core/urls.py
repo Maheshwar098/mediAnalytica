@@ -13,5 +13,6 @@ urlpatterns = [
 
     path("get-lung-scan-segmentation", views.get_lung_scan_segmentation, name="lung-scan"),
     path("get-chest-xray-pneumonia-dignosis", views.get_chest_xray_pneumonia_diagnosis,name="chess-x-ray-pneumonia"), 
-    path("get-knee-xray-osteoporosis", views.get_knee_xray_osteoporosis, name="knee-xray-osteoporosis")
+    path("get-knee-xray-osteoporosis", views.get_knee_xray_osteoporosis, name="knee-xray-osteoporosis"),
+    path("get-brain-ct-scan-tumor-detection", views.get_brain_ct_scan_tumor_detection,name="brain-ct-scan-tumor" ),
 ]
