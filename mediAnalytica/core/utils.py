@@ -1,4 +1,6 @@
 from django.db import connection 
+import numpy as np
+from PIL import Image
 
 cursor = connection.cursor()
 
@@ -29,3 +31,8 @@ def serialize_data(data):
     # print(lst)
     return lst
 
+def reshape_image(image, target_height, target_width):
+    if isinstance(image, np.ndarray):
+        image = Image.fromarray(image)
+    resized_image = image.resize((target_width, target_height), Image.BILINEAR)
+    return np.array(resized_image)

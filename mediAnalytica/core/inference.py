@@ -7,12 +7,17 @@ import os
 import json
 from django.conf import settings
 from typing import List
+import keras
+
+
 
 class InferenceService:
     def __init__(self):
-        rf_model_path = r"core/weights/symptom_rf.sav"
+        rf_model_path = r"core/static/symptom_rf.sav"
         json_file_path = os.path.join(settings.BASE_DIR, 'data', 'symptoms.json')
-        torch_lung_model_path = r"core/weights/lungmodel.pth"
+        torch_lung_model_path = r"core/static/lungmodel.pth"
+        chest_xray_pneumonia_model_path = r"core/static/pneumonia_chest_xray_model.h5"
+
         with open(rf_model_path, 'rb') as file :
             self.rf_model = pickle.load(file)
 
@@ -24,8 +29,10 @@ class InferenceService:
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
         ])
-        self.model = torch.load(torch_lung_model_path, map_location=torch.device('cpu'))
-        self.model.eval()
+        self.lung_segmentation_model = torch.load(torch_lung_model_path, map_location=torch.device('cpu'))
+        self.lung_segmentation_model.eval()
+
+        self.chest_xray_pneumonia_model=  keras.models.load_model(chest_xray_pneumonia_model_path)
 
     def predict_disease_from_symptom(self, symptoms: List)->str:
         x = np.zeros((1,132))
@@ -39,10 +46,19 @@ class InferenceService:
     def segment_lungs(self, image: Image.Image)->Image.Image:
         image_tensor = self.transform(image).unsqueeze(0)  
         with torch.no_grad():
-            output = self.model(image_tensor)
+            output = self.lung_segmentation_model(image_tensor)
         # output_img = torch.permute(torch.squeeze(output, 0), (1, 2, 0)).numpy()
         output_arr = output[0][0].numpy().astype(int)
         print(f'Generated Mask of shape {output_arr.shape}')
         op_image = Image.fromarray(output_arr, mode='L')
         return op_image
+    
+    def analyse_x_ray(self, image:Image.Image)->Image.Image:
+        return image
+    
+    def analyse_ct_scan(self, image:Image.Image)->Image.Image:
+        return image
 
+    def analyse_chest_xray_for_pneumonia(self,image):
+        prediction = self.chest_xray_pneumonia_model.predict(image)
+        return prediction

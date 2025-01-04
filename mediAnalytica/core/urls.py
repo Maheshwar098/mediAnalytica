@@ -11,5 +11,6 @@ urlpatterns = [
     path("add-doctors", views.add_doctors, name = "add_doctors"),
     path("test-query", views.test_query, name = "test_query"),
 
-    path("get-lung-scan", views.get_lung_scan, name="lung-scan")
+    path("get-lung-scan-segmentation", views.get_lung_scan_segmentation, name="lung-scan"),
+    path("get-chest-xray-pneumonia-dignosis", views.get_chest_xray_pneumonia_diagnosis,name="chess-x-ray-pneumonia"), 
 ]

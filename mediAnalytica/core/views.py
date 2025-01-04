@@ -120,7 +120,7 @@ def test_query(request):
     # cursor.execute(query)
     return JsonResponse({"resposne" : "Request executed successfully"})
 
-def get_lung_scan(request):
+def get_lung_scan_segmentation(request):
     if request.method == 'POST':
         if 'image' not in request.FILES:
             print("No image in request")
@@ -133,4 +133,25 @@ def get_lung_scan(request):
             context = {'scan': True,}
     else:
         context = {'scan': False,}
-    return render(request, "scan.html", context)
+    return render(request, "lung-segmentation.html", context)
+
+def get_chest_xray_pneumonia_diagnosis(request):
+    img_height = 512
+    img_width = 512
+    if request.method == 'POST':
+        if 'image' not in request.FILES:
+            print("No image in request")
+            return JsonResponse({'error': 'No file part'}, status=400)
+        else:
+            image_file = request.FILES['image']
+            image = np.array(Image.open(BytesIO(image_file.read())))
+            image_reshaped = np.expand_dims(np.stack((reshape_image(image,img_height,img_width),) * 3, axis=-1), axis=0)
+            result = inferServe.analyse_chest_xray_for_pneumonia(image_reshaped)[0][0]
+            print(result)
+            diagnosis = "No Pneumonia"
+            if(result ==1):
+                diagnosis = "Pneumonia"
+            context = {'scan': True, "diagnosis":diagnosis}
+    else:
+        context = {'scan': False,}
+    return render(request, "chest-xray-pneumonia.html", context)
