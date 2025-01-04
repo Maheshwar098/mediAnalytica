@@ -5,7 +5,7 @@ const animationConfig = {
     renderer: "svg", // Choose the rendering mode (svg, canvas, html)
     loop: true, // Set to true for a looping animation
     autoplay: true, // Set to true to start the animation automatically
-    path: "../static/animation_lobf8rfw.json", // Path to your JSON animation file
+    path: "../static/json/animation_lobf8rfw.json", // Path to your JSON animation file
 };
 // Create a Lottie animation by passing the configuration
 const anim = lottie.loadAnimation(animationConfig);
@@ -17,7 +17,7 @@ const animationConfig2 = {
     renderer: "svg", // Choose the rendering mode (svg, canvas, html)
     loop: true, // Set to true for a looping animation
     autoplay: true, // Set to true to start the animation automatically
-    path: "../static/animation_report.json", // Path to your JSON animation file
+    path: "../static/json/animation_report.json", // Path to your JSON animation file
 };
 // Create a Lottie animation by passing the configuration
 const anim2 = lottie.loadAnimation(animationConfig2);

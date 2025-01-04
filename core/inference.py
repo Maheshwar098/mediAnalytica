@@ -13,12 +13,12 @@ import tensorflow as tf
 
 class InferenceService:
     def __init__(self):
-        rf_model_path = r"core/static/symptom_rf.sav"
+        rf_model_path = r"core/static/models/symptom_rf.sav"
         json_file_path = os.path.join(settings.BASE_DIR, 'data', 'symptoms.json')
-        torch_lung_model_path = r"core/static/lungmodel.pth"
-        chest_xray_pneumonia_model_path = r"core/static/pneumonia_chest_xray_model.h5"
-        knee_xray_osteoporosis_model_path = r"core/static/osteoporosis_knee_xray_model.h5"
-        brain_ct_scan_tumor_model_path = r"core/static/brain_ctscan_model.h5"
+        torch_lung_model_path = r"core/static/models/lungmodel.pth"
+        chest_xray_pneumonia_model_path = r"core/static/models/pneumonia_chest_xray_model.h5"
+        knee_xray_osteoporosis_model_path = r"core/static/models/osteoporosis_knee_xray_model.h5"
+        brain_ct_scan_tumor_model_path = r"core/static/models/brain_ctscan_model.h5"
 
         with open(rf_model_path, 'rb') as file :
             self.rf_model = pickle.load(file)

@@ -104,7 +104,7 @@ def get_sepcialist_from_symptoms(request):
     return render(request, "result.html", context=context)
     
 def add_doctors(request):
-    file_path = "core/static/Doctor_Versus_Disease.csv"
+    file_path = "core/static/datasets/Doctor_Versus_Disease.csv"
     f = open(file_path)
     content = list(f.read().split("\n"))
     data = [("'"+e.split(",")[0]+"'", "'"+e.split(",")[1]+"'") for e in content]
